@@ -29,6 +29,7 @@
             const ball = document.createElement('div');
             ball.setAttribute('class', 'ball');
             ball.style.top = `${Math.random() * 100}vh`;
+            console.log('top1', ball.style.top)
             container.appendChild(ball);
             return ball;
         }
@@ -47,12 +48,12 @@
             ball= createBall();
             if(resta>700){
                 intervaloMedio=timestamp;
-                resta=0;
-                if(timestamp>1000){
+                console.log('top2', ball.style.top)
+                if(parseFloat(ball.style.top.replace('vh',''))>20){
                     ball.style.backgroundColor='yellow';
                 }
+                resta=0;
             }
-            console.log(`timestamp: ${timestamp}, intervaloMedio: ${intervaloMedio}, resta: ${resta}`);
             ball.style.left = `${resta}px`;
             requestAnimationFrame(controlF);
         }
