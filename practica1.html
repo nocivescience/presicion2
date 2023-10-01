@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        position: relative;
+    }
+    .ball{
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: red;
+        position: absolute;
+    }
+</style>
+<body>
+    <script>
+        let previousTimestamp, accelerationX, accelerationY, frictionX, frictionY;
+        function handleOrientation() {
+            accelerationX = 67;
+            accelerationY = 45;
+        }
+        function handleMotion(event) {
+            frictionX = 3;
+            frictionY = 3;
+        }
+        function createBall() {
+            const ball = document.createElement('div');
+            ball.className = 'ball';
+            document.body.appendChild(ball);
+            return ball;
+        }
+        function controlF(timestamp) {
+          
+                if (previousTimestamp === undefined) {
+                    previousTimestamp = timestamp;
+                }
+
+            const timeElapsed = (timestamp - previousTimestamp) / 16;
+            try {
+                // body.innerHTML = '';
+                if (accelerationX !== undefined && !accelerationY !== undefined) {
+                    document.body.innerHTML = '';
+                    const ball= createBall();
+                    const velocityX = accelerationX * timeElapsed;
+                    const velocityY = accelerationY * timeElapsed;
+                    const frictionDeltaX = frictionX * timeElapsed;
+                    const frictionDeltaY = frictionY * timeElapsed;
+                    ball.style.transform = `translate(${parseFloat(velocityX/10)}px, ${parseFloat(velocityY/10)}px)`;
+                    ball.style.right = `${velocityX}px`;
+                    ball.style.bottom = `${velocityY}px`;
+                    console.log('ball', velocityX, velocityY, frictionDeltaX, frictionDeltaY);
+                }
+            } catch (e) {
+                console.log('tu error', e);
+            }
+            requestAnimationFrame(controlF);
+        }
+        handleOrientation();
+        handleMotion();
+        controlF();
+    </script>
+</body>
+
+</html>

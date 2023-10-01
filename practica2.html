@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .container{
+        height: 100vh;
+        width: 100%;
+        background-color: black;
+        position: relative;
+    }
+    .ball{
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: red;
+        position: absolute;
+    }
+</style>
+<body>
+    <div id="container" class="container"></div>
+    <script>
+        const container = document.getElementById('container');
+        function createBall(){
+            container.innerHTML = '';
+            const ball = document.createElement('div');
+            ball.setAttribute('class', 'ball');
+            ball.style.top = `${Math.random() * 100}vh`;
+            container.appendChild(ball);
+            return ball;
+        }
+        
+        function animacion(timestamp){
+            setInterval(() => {
+                createBall();
+            }, 10);
+        }
+        animacion();
+        let intervaloMedio=0;
+        let intervaloLargo=0;
+        function controlF(timestamp){
+            intervaloLargo++;
+            let resta= timestamp - intervaloMedio;
+            ball= createBall();
+            if(resta>700){
+                intervaloMedio=timestamp;
+                resta=0;
+                if(timestamp>1000){
+                    ball.style.backgroundColor='yellow';
+                }
+            }
+            console.log(`timestamp: ${timestamp}, intervaloMedio: ${intervaloMedio}, resta: ${resta}`);
+            ball.style.left = `${resta}px`;
+            requestAnimationFrame(controlF);
+        }
+        controlF();
+    </script>
+</body>
+</html>
